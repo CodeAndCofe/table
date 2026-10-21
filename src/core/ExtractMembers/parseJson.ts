@@ -43,15 +43,32 @@ export class   ParsingExtraction
         );
     }
     
-    
-    parse_text(text: string): TableRow[]
+    parse_text(text: string, separator = ' ', columnWidths?: number[]): string[][]
     {
-        if (!text.trim()) 
-            return [];
+        if (!text) return [];
 
-        return text.split(/\r?\n/).map((line) =>
-            line.split("|").map((cell) => cell.trim())
-        );
-    }
+        return text.split('\n').map((line) =>
+        {
+            if (columnWidths)
+            {
+                const cells: string[] = [];
+                let offset = 0;
+
+                for (let i = 0; i < columnWidths.length; i++)
+                {
+                    cells.push(line.slice(offset, offset + columnWidths[i]).trimEnd());
+                    offset += columnWidths[i];
+
+                    if (i < columnWidths.length - 1)
+                        offset += separator.length;
+                }
+
+                return cells;
+            }
+            return line.split(separator).map((cell) => cell.trim());
+        });
+}
+
+
 
 }
