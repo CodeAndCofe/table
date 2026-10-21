@@ -6,3 +6,5 @@ export * from "./html.ts";
 export * from "./json.ts";
 export * from "./text.ts";
 export * from "./md.ts";
+export * from "./extract.ts"
+ 
